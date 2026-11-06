@@ -1,0 +1,42 @@
+# The member area is noindex at the layout level too (layouts.member emits an
+# unconditional robots meta tag). This file is the belt: a crawler that never
+# fetches the page never reads the tag, and these prefixes are all behind
+# auth:web anyway — every one of them answers a signed-out crawler with a
+# redirect to /login, which wastes crawl budget on the login form.
+#
+# Profile URLs are the reason this matters. /profile/{slug} is member-only, and
+# docs/05-website-guide.md §6 is explicit that privacy overrides SEO: a profile
+# is never in the sitemap and never crawled. /browse is the one public door
+# onto profiles, and it links to /register rather than to any profile page.
+
+User-agent: *
+
+Disallow: /api/
+Disallow: /admin
+Disallow: /admin/
+
+Disallow: /dashboard
+Disallow: /search
+Disallow: /matches/
+Disallow: /interests/
+Disallow: /messages/
+Disallow: /shortlist/
+Disallow: /profile/
+Disallow: /membership
+Disallow: /payments/
+Disallow: /notifications
+Disallow: /settings
+
+# Auth screens: nothing to index, and /logout is a POST that a crawler cannot
+# reach anyway.
+Disallow: /login
+Disallow: /register
+Disallow: /password/
+Disallow: /otp/
+
+# The Sitemap directive is absolute per the robots.txt spec — a relative path
+# is ignored by every major crawler — so it cannot be written here, where there
+# is no APP_URL to interpolate. `matrimony:sitemap` rewrites the line below on
+# every run (daily, and once per deploy), which keeps it correct on staging and
+# production without either of them needing a different copy of this file.
+Sitemap: /sitemap.xml

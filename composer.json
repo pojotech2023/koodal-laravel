@@ -1,0 +1,75 @@
+{
+    "$schema": "https://getcomposer.org/schema.json",
+    "name": "dreamstech/matrimony",
+    "type": "project",
+    "description": "Matrimony — matrimonial platform API serving the website, admin panel and Flutter app.",
+    "keywords": ["laravel", "matrimony", "api", "razorpay"],
+    "license": "MIT",
+    "require": {
+        "php": "^8.2",
+        "barryvdh/laravel-dompdf": "^3.0",
+        "guzzlehttp/guzzle": "^7.8",
+        "intervention/image": "^3.6",
+        "kreait/firebase-php": "^7.14",
+        "kreait/laravel-firebase": "^6.2",
+        "laravel/framework": "^11.31",
+        "laravel/reverb": "^1.4",
+        "laravel/sanctum": "^4.0",
+        "laravel/tinker": "^2.9",
+        "razorpay/razorpay": "^2.9"
+    },
+    "require-dev": {
+        "fakerphp/faker": "^1.23",
+        "laravel/pail": "^1.1",
+        "laravel/pint": "^1.13",
+        "mockery/mockery": "^1.6",
+        "nunomaduro/collision": "^8.1",
+        "phpunit/phpunit": "^11.0.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/",
+            "Database\\Factories\\": "database/factories/",
+            "Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "post-autoload-dump": [
+            "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
+            "@php artisan package:discover --ansi"
+        ],
+        "post-root-package-install": [
+            "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
+        ],
+        "post-create-project-cmd": [
+            "@php artisan key:generate --ansi"
+        ],
+        "dev": [
+            "Composer\\Config::disableProcessTimeout",
+            "@php -r \"echo 'Run each in its own terminal:', PHP_EOL, '  php artisan serve', PHP_EOL, '  php artisan queue:work --tries=3', PHP_EOL, '  php artisan schedule:work', PHP_EOL, '  php artisan reverb:start', PHP_EOL;\""
+        ],
+        "test": ["@php artisan test"],
+        "lint": ["./vendor/bin/pint"],
+        "lint:test": ["./vendor/bin/pint --test"]
+    },
+    "extra": {
+        "laravel": {
+            "dont-discover": []
+        }
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "preferred-install": "dist",
+        "sort-packages": true,
+        "allow-plugins": {
+            "php-http/discovery": true
+        }
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}
